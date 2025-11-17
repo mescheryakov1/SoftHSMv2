@@ -6,6 +6,20 @@ project.
 [![Travis Build Status](https://api.travis-ci.org/opendnssec/SoftHSMv2.png)](https://travis-ci.org/opendnssec/SoftHSMv2)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/opendnssec/SoftHSMv2?svg=true)](https://ci.appveyor.com/project/opendnssec/softhsmv2)
 
+GitHub Actions CI runs on pushes to the `develop` and `master` branches as well as for pull requests.
+
+### CI build artifacts
+
+Each CI job now publishes its installed binaries as a GitHub Actions artifact (one per platform/backend/architecture).
+You can download the latest successful build with the helper script:
+
+```
+./scripts/download-ci-artifacts.sh --branch develop
+```
+
+Use `--artifact NAME` to fetch a specific artifact (for example `softhsm-linux_botan` or `softhsm-windows-openssl-x64`).
+The script requires the GitHub CLI (`gh`) authenticated for this repository and `jq`.
+
 ## Introduction
 
 OpenDNSSEC handles and stores its cryptographic keys via the PKCS#11 interface.
