@@ -28,6 +28,19 @@ jobs:
         run: |
           make check || (find . -name test-suite.log -exec cat {} \; && false)
 
+      - name: Package artifacts
+        run: |
+          install_root="$PWD/install-root"
+          make install DESTDIR="$install_root"
+          tar czf "${{ github.job }}.tar.gz" -C "$install_root" .
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: softhsm-${{ github.job }}
+          path: ${{ github.job }}.tar.gz
+          if-no-files-found: error
+
   linux_ossl_1:
     name: Linux with OpenSSL 1.1.1
     runs-on: ubuntu-24.04
@@ -55,6 +68,19 @@ jobs:
         run: |
           make check || (find . -name test-suite.log -exec cat {} \; && false)
 
+      - name: Package artifacts
+        run: |
+          install_root="$PWD/install-root"
+          make install DESTDIR="$install_root"
+          tar czf "${{ github.job }}.tar.gz" -C "$install_root" .
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: softhsm-${{ github.job }}
+          path: ${{ github.job }}.tar.gz
+          if-no-files-found: error
+
   linux_ossl_30:
     name: Linux with OpenSSL 3.0
     runs-on: ubuntu-24.04
@@ -75,6 +101,19 @@ jobs:
       - name: Test
         run: |
           make check || (find . -name test-suite.log -exec cat {} \; && false)
+
+      - name: Package artifacts
+        run: |
+          install_root="$PWD/install-root"
+          make install DESTDIR="$install_root"
+          tar czf "${{ github.job }}.tar.gz" -C "$install_root" .
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: softhsm-${{ github.job }}
+          path: ${{ github.job }}.tar.gz
+          if-no-files-found: error
 
   macos:
     name: macOS (${{ matrix.backend }})
@@ -102,6 +141,19 @@ jobs:
       - name: Test
         run: |
           make check || (find . -name test-suite.log -exec cat {} \; && false)
+
+      - name: Package artifacts
+        run: |
+          install_root="$PWD/install-root"
+          make install DESTDIR="$install_root"
+          tar czf "macos-${{ matrix.backend }}.tar.gz" -C "$install_root" .
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: softhsm-macos-${{ matrix.backend }}
+          path: macos-${{ matrix.backend }}.tar.gz
+          if-no-files-found: error
 
   windows:
     name: Windows (${{ matrix.arch }}, ${{ matrix.backend }})
@@ -149,3 +201,18 @@ jobs:
           CTEST_OUTPUT_ON_FAILURE: 1
         run: |
           cmake --build build --target RUN_TESTS
+
+      - name: Package artifacts
+        shell: pwsh
+        run: |
+          $installRoot = Join-Path $env:GITHUB_WORKSPACE "install-root"
+          cmake --install build --prefix $installRoot
+          $archive = "windows-${{ matrix.backend }}-${{ matrix.arch }}.zip"
+          Compress-Archive -Path "$installRoot\*" -DestinationPath (Join-Path $env:GITHUB_WORKSPACE $archive)
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: softhsm-windows-${{ matrix.backend }}-${{ matrix.arch }}
+          path: windows-${{ matrix.backend }}-${{ matrix.arch }}.zip
+          if-no-files-found: error
