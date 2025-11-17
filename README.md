@@ -6,7 +6,7 @@ project.
 [![Travis Build Status](https://api.travis-ci.org/opendnssec/SoftHSMv2.png)](https://travis-ci.org/opendnssec/SoftHSMv2)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/opendnssec/SoftHSMv2?svg=true)](https://ci.appveyor.com/project/opendnssec/softhsmv2)
 
-GitHub Actions CI runs on pushes to the `develop` and `master` branches as well as for pull requests.
+GitHub Actions CI runs on pushes to the `develop` and `master` branches as well as for pull requests..
 
 ## Introduction
 
