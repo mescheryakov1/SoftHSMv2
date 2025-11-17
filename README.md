@@ -19,6 +19,7 @@ You can download the latest successful build with the helper script:
 
 Use `--artifact NAME` to fetch a specific artifact (for example `softhsm-linux_botan` or `softhsm-windows-openssl-x64`).
 The script requires the GitHub CLI (`gh`) authenticated for this repository and `jq`.
+GitHub Actions CI runs on pushes to the `develop` and `master` branches as well as for pull requests..
 
 ## Introduction
 
